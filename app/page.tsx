@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { getAllProducts } from "./catalog/_queries";
 
-export default function Home() {
-  const products = getAllProducts();
+export default async function Home() {
+  const products = await getAllProducts();
 
   return (
     <div className="mx-auto w-full max-w-6xl px-6 py-12">

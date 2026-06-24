@@ -1,4 +1,4 @@
-import productsData from "./_data/products.json";
+import { prisma } from "@/lib/prisma";
 
 export type Product = {
   id: string;
@@ -11,12 +11,30 @@ export type Product = {
   specifications: Record<string, string>;
 };
 
-const products: Product[] = productsData;
-
-export function getAllProducts(): Product[] {
-  return products;
+function deserialize(raw: {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  category: string;
+  specifications: string;
+}): Product {
+  return {
+    ...raw,
+    specifications: JSON.parse(raw.specifications),
+  };
 }
 
-export function getProductBySlug(slug: string): Product | undefined {
-  return products.find((p) => p.slug === slug);
+export async function getAllProducts(): Promise<Product[]> {
+  const rows = await prisma.product.findMany({ orderBy: { name: "asc" } });
+  return rows.map(deserialize);
+}
+
+export async function getProductBySlug(
+  slug: string
+): Promise<Product | undefined> {
+  const row = await prisma.product.findUnique({ where: { slug } });
+  return row ? deserialize(row) : undefined;
 }
