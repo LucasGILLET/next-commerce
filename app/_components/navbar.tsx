@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CartButton from "./cart-button";
 
 export default function Navbar() {
   return (
@@ -23,6 +24,7 @@ export default function Navbar() {
           >
             Admin
           </Link>
+          <CartButton />
         </nav>
       </div>
     </header>
