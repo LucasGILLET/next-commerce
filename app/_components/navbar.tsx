@@ -6,7 +6,7 @@ export default function Navbar() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link
           href="/"
-          className="text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50"
+          className="font-(family-name:--font-dancing-script) text-2xl font-bold text-zinc-900 dark:text-zinc-50"
         >
           My Supa Store
         </Link>

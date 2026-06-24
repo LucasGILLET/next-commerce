@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./_components/navbar";
 import Footer from "./_components/footer";
@@ -12,6 +13,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const dancingScript = localFont({
+  src: "./fonts/DancingScript-VariableFont_wght.ttf",
+  variable: "--font-dancing-script",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -27,7 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-zinc-50 dark:bg-zinc-900">
         <Navbar />
