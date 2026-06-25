@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getAllProducts, getProductBySlug } from "@/app/catalog/_queries";
 import AddToCartButton from "./_components/add-to-cart-button";
 import ProductTabs from "./_components/product-tabs";
+import SimilarProducts from "./_components/similar-products";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +26,7 @@ export default async function ProductPage({ params }: PageProps) {
   }
 
   return (
+    <>
     <div className="mx-auto w-full max-w-6xl px-6 py-12">
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
         <div className="relative aspect-square w-full overflow-hidden rounded-xl">
@@ -78,5 +80,7 @@ export default async function ProductPage({ params }: PageProps) {
         </div>
       </div>
     </div>
+    <SimilarProducts slug={product.slug} category={product.category} />
+    </>
   );
 }
