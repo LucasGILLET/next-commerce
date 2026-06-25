@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 export type Product = {
@@ -35,6 +36,7 @@ export async function getAllProducts(): Promise<Product[]> {
 export async function getProductBySlug(
   slug: string
 ): Promise<Product | undefined> {
+  await connection();
   const row = await prisma.product.findUnique({ where: { slug } });
   return row ? deserialize(row) : undefined;
 }
@@ -43,6 +45,7 @@ export async function getSimilarProducts(
   slug: string,
   category: string
 ): Promise<Product[]> {
+  await connection();
   const rows = await prisma.product.findMany({
     where: { category, NOT: { slug } },
     take: 3,

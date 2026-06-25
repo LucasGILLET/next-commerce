@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import CartButton from "./cart-button";
 
@@ -24,7 +25,9 @@ export default function Navbar() {
           >
             Admin
           </Link>
-          <CartButton />
+          <Suspense fallback={<span className="rounded-full border border-zinc-200 px-3 py-1.5 text-sm font-medium text-zinc-700 dark:border-zinc-700 dark:text-zinc-300">Panier</span>}>
+            <CartButton />
+          </Suspense>
         </nav>
       </div>
     </header>

@@ -1,3 +1,5 @@
+import { cacheLife, cacheTag } from "next/cache";
+
 const ENDPOINT =
   "https://graphqlstore.julienfroidefond.com/api/2024-01/graphql.json";
 
@@ -16,8 +18,6 @@ async function gql<T>(query: string, variables?: Record<string, unknown>): Promi
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query, variables }),
-    cache: "force-cache",
-    next: { tags: ["sponsored"], revalidate: 3600 },
   });
   const { data } = await res.json();
   return data;
@@ -43,6 +43,9 @@ function mapProduct(n: {
 }
 
 export async function getSponsoredProducts(count = 4): Promise<SponsoredProduct[]> {
+  "use cache";
+  cacheLife("hours");
+  cacheTag("sponsored");
   const data = await gql<{ products: { nodes: Parameters<typeof mapProduct>[0][] } }>(
     `query GetSponsoredProducts($first: Int!) {
       products(first: $first) {

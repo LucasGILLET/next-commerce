@@ -3,8 +3,6 @@ import { notFound } from "next/navigation";
 import { getAllProducts, getProductBySlug } from "@/app/catalog/_queries";
 import ProductDetail from "./_components/product-detail";
 
-export const dynamic = "force-dynamic";
-
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
