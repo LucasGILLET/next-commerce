@@ -1,11 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getAllProducts } from "./catalog/_queries";
+import SponsoredProducts from "./_components/sponsored-products";
 
 export default async function Home() {
   const products = await getAllProducts();
 
   return (
+    <>
     <div className="mx-auto w-full max-w-6xl px-6 py-12">
       <h1 className="mb-8 text-3xl font-bold text-zinc-900 dark:text-zinc-50">
         Nos produits
@@ -47,5 +49,7 @@ export default async function Home() {
         ))}
       </div>
     </div>
+    <SponsoredProducts />
+    </>
   );
 }

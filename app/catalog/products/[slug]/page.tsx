@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getAllProducts, getProductBySlug } from "@/app/catalog/_queries";
 import ProductDetail from "./_components/product-detail";
 import SimilarProducts from "./_components/similar-products";
+import SponsoredProducts from "@/app/_components/sponsored-products";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +32,7 @@ export default async function ProductPage({ params }: PageProps) {
       <Suspense fallback={<SimilarProductsSkeleton />}>
         <SimilarProducts slug={slug} category={product.category} />
       </Suspense>
+      <SponsoredProducts />
     </>
   );
 }
