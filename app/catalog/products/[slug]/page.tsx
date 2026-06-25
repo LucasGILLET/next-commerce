@@ -5,7 +5,7 @@ import { getAllProducts, getProductBySlug } from "@/app/catalog/_queries";
 import AddToCartButton from "./_components/add-to-cart-button";
 import ProductTabs from "./_components/product-tabs";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
