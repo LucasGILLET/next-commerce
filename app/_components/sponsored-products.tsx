@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getSponsoredProducts } from "@/app/_lib/graphql";
+import RefreshSponsoredButton from "./refresh-sponsored-button";
 
 export default async function SponsoredProducts() {
   const products = await getSponsoredProducts(4);
@@ -16,6 +17,7 @@ export default async function SponsoredProducts() {
         <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
           Sponsorisé
         </span>
+        <RefreshSponsoredButton />
       </div>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {products.map((p) => (
