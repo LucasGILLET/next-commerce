@@ -1,27 +1,26 @@
+import { Suspense } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProductBySlug } from "@/app/catalog/_queries";
+import { getAllProducts, getProductBySlug } from "@/app/catalog/_queries";
 import AddToCartButton from "./_components/add-to-cart-button";
+import ProductTabs from "./_components/product-tabs";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ tab?: string }>;
 };
 
-export default async function ProductPage({ params, searchParams }: PageProps) {
+export async function generateStaticParams() {
+  const products = await getAllProducts();
+  return products.map((p) => ({ slug: p.slug }));
+}
+
+export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
-  const { tab = "description" } = await searchParams;
   const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();
   }
-
-  const tabs = [
-    { id: "description", label: "Description" },
-    { id: "specifications", label: "Spécifications" },
-  ];
 
   return (
     <div className="mx-auto w-full max-w-6xl px-6 py-12">
@@ -54,45 +53,16 @@ export default async function ProductPage({ params, searchParams }: PageProps) {
             })}
           </p>
 
-          <div className="border-b border-zinc-200 dark:border-zinc-800">
-            <nav className="flex gap-4">
-              {tabs.map(({ id, label }) => {
-                const isActive = tab === id;
-                return (
-                  <Link
-                    key={id}
-                    href={`?tab=${id}`}
-                    className={`pb-3 text-sm font-medium transition-colors ${
-                      isActive
-                        ? "border-b-2 border-zinc-900 text-zinc-900 dark:border-zinc-50 dark:text-zinc-50"
-                        : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
-                    }`}
-                  >
-                    {label}
-                  </Link>
-                );
-              })}
-            </nav>
-          </div>
-
-          {tab === "specifications" ? (
-            <dl className="divide-y divide-zinc-100 rounded-lg border border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800">
-              {Object.entries(product.specifications).map(([key, value]) => (
-                <div key={key} className="flex px-4 py-3 text-sm">
-                  <dt className="w-1/2 font-medium text-zinc-700 dark:text-zinc-300">
-                    {key}
-                  </dt>
-                  <dd className="w-1/2 text-zinc-500 dark:text-zinc-400">
-                    {value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          ) : (
-            <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
-              {product.description}
-            </p>
-          )}
+          <Suspense
+            fallback={
+              <div className="h-32 animate-pulse rounded-lg bg-zinc-100 dark:bg-zinc-800" />
+            }
+          >
+            <ProductTabs
+              description={product.description}
+              specifications={product.specifications}
+            />
+          </Suspense>
 
           <AddToCartButton
             product={{
