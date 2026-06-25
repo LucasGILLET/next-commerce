@@ -5,6 +5,8 @@ import { getSimilarProducts } from "@/app/catalog/_queries";
 type Props = { slug: string; category: string };
 
 export default async function SimilarProducts({ slug, category }: Props) {
+  // Simulated delay — streams in independently after ProductDetail (1s)
+  await new Promise((r) => setTimeout(r, 2000));
   const products = await getSimilarProducts(slug, category);
 
   if (products.length === 0) return null;
