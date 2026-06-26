@@ -52,13 +52,25 @@ export async function updateProduct(
     return { errors: parsed.error.flatten().fieldErrors };
   }
 
-  await prisma.product.update({
-    where: { id },
-    data: parsed.data,
-  });
+  try {
+    await prisma.product.update({
+      where: { id },
+      data: parsed.data,
+    });
+  } catch {
+    return { message: "Erreur base de données : la mise à jour a échoué." };
+  }
 
   revalidatePath("/admin/products");
   revalidateTag("products", "max");
 
   return { success: true, message: "Produit mis à jour avec succès." };
+}
+
+export async function simulateError(
+  _prevState: ProductState,
+  _formData: FormData
+): Promise<ProductState> {
+  await new Promise((r) => setTimeout(r, 800));
+  return { message: "💥 Erreur simulée : quelque chose s'est mal passé côté serveur." };
 }
