@@ -1,4 +1,5 @@
 import { connection } from "next/server";
+import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
 export type Product = {
@@ -28,10 +29,14 @@ function deserialize(raw: {
   };
 }
 
-export async function getAllProducts(): Promise<Product[]> {
-  const rows = await prisma.product.findMany({ orderBy: { name: "asc" } });
-  return rows.map(deserialize);
-}
+export const getAllProducts = unstable_cache(
+  async (): Promise<Product[]> => {
+    const rows = await prisma.product.findMany({ orderBy: { name: "asc" } });
+    return rows.map(deserialize);
+  },
+  ["all-products"],
+  { tags: ["products"], revalidate: false }
+);
 
 export async function getProductBySlug(
   slug: string

@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 const ProductSchema = z.object({
   name: z.string().min(1, "Le nom est requis."),
@@ -58,7 +58,7 @@ export async function updateProduct(
   });
 
   revalidatePath("/admin/products");
-  revalidatePath("/");
+  revalidateTag("products", "max");
 
   return { success: true, message: "Produit mis à jour avec succès." };
 }
