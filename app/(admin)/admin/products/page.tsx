@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 
 export default async function AdminProductsPage() {
   const products = await prisma.product.findMany({
@@ -29,6 +30,7 @@ export default async function AdminProductsPage() {
               <th className="px-4 py-3 text-left font-semibold text-zinc-600 dark:text-zinc-400">
                 Slug
               </th>
+              <th className="px-4 py-3" />
             </tr>
           </thead>
           <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
@@ -51,6 +53,14 @@ export default async function AdminProductsPage() {
                 </td>
                 <td className="px-4 py-3 font-mono text-xs text-zinc-400">
                   {product.slug}
+                </td>
+                <td className="px-4 py-3 text-right">
+                  <Link
+                    href={`/admin/products/${product.id}`}
+                    className="text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
+                  >
+                    Éditer
+                  </Link>
                 </td>
               </tr>
             ))}

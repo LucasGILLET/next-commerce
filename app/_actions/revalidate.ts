@@ -3,5 +3,5 @@
 import { revalidateTag } from "next/cache";
 
 export async function revalidateSponsored() {
-  revalidateTag("sponsored");
+  revalidateTag("sponsored", "hours");
 }
