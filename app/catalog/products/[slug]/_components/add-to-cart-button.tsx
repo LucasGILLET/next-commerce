@@ -16,6 +16,8 @@ export default function AddToCartButton({ product }: Props) {
   const router = useRouter();
 
   async function handleAdd() {
+    // eslint-disable-next-line no-debugger
+    debugger;
     await fetch("/api/cart", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
