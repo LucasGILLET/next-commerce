@@ -1,11 +1,32 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { getAllProducts, getProductBySlug } from "@/app/catalog/_queries";
 import ProductDetail from "./_components/product-detail";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
+
+  if (!product) return {};
+
+  return {
+    title: product.name,
+    description: product.description,
+    keywords: [product.name, product.category, "acheter", "boutique"],
+    robots: { index: true, follow: true },
+    openGraph: {
+      title: product.name,
+      description: product.description,
+      images: [{ url: product.image, alt: product.name }],
+      type: "website",
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const products = await getAllProducts();
