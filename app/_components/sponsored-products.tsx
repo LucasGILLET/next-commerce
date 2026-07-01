@@ -20,7 +20,7 @@ export default async function SponsoredProducts() {
         <RefreshSponsoredButton />
       </div>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {products.map((p) => (
+        {products.map((p, index) => (
           <Link
             key={p.id}
             href={`/sponsored/${p.handle}`}
@@ -31,6 +31,7 @@ export default async function SponsoredProducts() {
                 src={p.image}
                 alt={p.title}
                 fill
+                priority={index === 0}
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />

@@ -13,7 +13,7 @@ export default async function ProductGrid() {
 
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {products.map((product) => (
+      {products.map((product, index) => (
         <ProductLink
           key={product.id}
           href={`/catalog/products/${product.slug}`}
@@ -24,6 +24,7 @@ export default async function ProductGrid() {
               src={product.image}
               alt={product.name}
               fill
+              priority={index === 0}
               className="object-cover transition-transform duration-300 group-hover:scale-105"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
