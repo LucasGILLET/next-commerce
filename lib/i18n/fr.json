@@ -1,0 +1,12 @@
+{
+  "nav": {
+    "products": "Produits",
+    "cart": "Panier",
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "admin": "Admin"
+  },
+  "footer": {
+    "rights": "Tous droits réservés."
+  }
+}

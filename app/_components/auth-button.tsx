@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { auth } from "@/auth";
 import { logout } from "@/app/_actions/auth";
+import { getDictionary } from "@/lib/i18n";
 
 function trigram(name: string): string {
   return name
@@ -12,7 +13,7 @@ function trigram(name: string): string {
 }
 
 export default async function AuthButton() {
-  const session = await auth();
+  const [session, t] = await Promise.all([auth(), getDictionary()]);
 
   if (!session?.user) {
     return (
@@ -20,7 +21,7 @@ export default async function AuthButton() {
         href="/login"
         className="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
       >
-        Connexion
+        {t.nav.login}
       </Link>
     );
   }
@@ -34,7 +35,7 @@ export default async function AuthButton() {
           href="/admin/products"
           className="text-sm font-medium transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
         >
-          Admin
+          {t.nav.admin}
         </Link>
       )}
       <span
@@ -48,7 +49,7 @@ export default async function AuthButton() {
           type="submit"
           className="text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
         >
-          Déconnexion
+          {t.nav.logout}
         </button>
       </form>
     </div>

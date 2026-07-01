@@ -12,6 +12,15 @@ export default auth((req) => {
     return;
   }
 
+  // i18n : set NEXT_LOCALE depuis Accept-Language si absent
+  if (!req.cookies.get('NEXT_LOCALE')) {
+    const acceptLang = req.headers.get('accept-language') ?? ''
+    const locale = acceptLang.startsWith('fr') ? 'fr' : 'en'
+    const res = NextResponse.next()
+    res.cookies.set('NEXT_LOCALE', locale, { path: '/', maxAge: 60 * 60 * 24 * 365, sameSite: 'lax' })
+    return res
+  }
+
   // A/B testing : attribution du variant
   const override = searchParams.get("ab_prefetch");
   const existing = req.cookies.get("ab")?.value;
