@@ -1,0 +1,18 @@
+{
+  "name": "Mon super store",
+  "short_name": "SuperStore",
+  "description": "Une boutique e-commerce Next.js",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#18181b",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/next.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

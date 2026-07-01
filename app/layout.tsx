@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar from "./_components/navbar";
 import Footer from "./_components/footer";
 import { WebVitals } from "./_components/web-vitals";
+import { ServiceWorkerRegister } from "./_components/service-worker-register";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     type: "website",
   },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -49,6 +51,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-zinc-50 dark:bg-zinc-900">
         <WebVitals />
+        <ServiceWorkerRegister />
         <Navbar />
         <main className="flex flex-1 flex-col">{children}</main>
         <Footer />
